@@ -14,8 +14,12 @@ FinancialMarketImpl::FinancialMarketImpl()
 
 std::optional<std::string> FinancialMarketImpl::createOrder(const std::string& productId, OrderVerb verb, double price, double quantity)
 {
-    if((m_placedOrders.size() == m_placedOrders.max_size()) ||
-            (m_orderUniqueId == std::numeric_limits<uint64_t>::max()))
+    if(quantity < 0) // quantity cannot be negative
+    {
+        return std::nullopt;
+    }
+
+    if((m_placedOrders.size() == m_placedOrders.max_size()) || (m_orderUniqueId == std::numeric_limits<uint64_t>::max()))
     {
         return std::nullopt;
     }
